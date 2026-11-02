@@ -67,5 +67,4 @@ Planning and design stage. Development will follow the milestones outlined in th
 
 ## Author
 
-Trisha
-Purdue University
+Trisha Singh
