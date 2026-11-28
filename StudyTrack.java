@@ -1,6 +1,8 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.time.LocalDate;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class StudyTrack {
     public static void main(String[] args) {
@@ -35,6 +37,25 @@ public class StudyTrack {
 
                     StudySession session = new StudySession(subject, date, duration);
                     sessions.add(session);
+
+                        try {
+    PrintWriter writer = new PrintWriter(
+        new FileWriter("sessions.csv", true)
+    );
+
+    writer.println(
+        session.getSubject() + "," +
+        session.getDate() + "," +
+        session.getDuration()
+    );
+
+    writer.close();
+
+    System.out.println("Study session saved!");
+
+} catch (IOException e) {
+    System.out.println("Error saving study session.");
+}
 
                     System.out.println("Study session added!");
                     break;
