@@ -12,6 +12,37 @@ public class StudyTrack {
 
         Scanner scanner = new Scanner(System.in);
         ArrayList<StudySession> sessions = new ArrayList<>();
+        try {
+    BufferedReader reader = new BufferedReader(
+        new FileReader("sessions.csv")
+    );
+
+    String line;
+
+    while ((line = reader.readLine()) != null) {
+        String[] parts = line.split(",");
+
+        if (parts.length == 3) {
+            String subject = parts[0];
+            LocalDate date = LocalDate.parse(parts[1]);
+            int duration = Integer.parseInt(parts[2]);
+
+            StudySession session = new StudySession(
+                subject, date, duration
+            );
+
+            sessions.add(session);
+        }
+    }
+
+    reader.close();
+
+} catch (java.io.FileNotFoundException e) {
+    System.out.println("No previous sessions found.");
+
+} catch (IOException e) {
+    System.out.println("Error loading sessions.");
+}
 
         int choice = 0;
 
@@ -26,42 +57,41 @@ public class StudyTrack {
             choice = scanner.nextInt();
 
             switch (choice) {
-                case 1:
-                    scanner.nextLine();
+              case 1:
+    scanner.nextLine();
 
-                    System.out.print("Enter subject: ");
-                    String subject = scanner.nextLine();
+    System.out.print("Enter subject: ");
+    String subject = scanner.nextLine();
 
-                    System.out.print("Enter date (YYYY-MM-DD): ");
-                    LocalDate date = LocalDate.parse(scanner.nextLine());
+    System.out.print("Enter date (YYYY-MM-DD): ");
+    LocalDate date = LocalDate.parse(scanner.nextLine());
 
-                    System.out.print("Enter duration (minutes): ");
-                    int duration = scanner.nextInt();
+    System.out.print("Enter duration (minutes): ");
+    int duration = scanner.nextInt();
 
-                    StudySession session = new StudySession(subject, date, duration);
-                    sessions.add(session);
+    StudySession session = new StudySession(subject, date, duration);
 
-                        try {
-    PrintWriter writer = new PrintWriter(
-        new FileWriter("sessions.csv", true)
-    );
+    try {
+        PrintWriter writer = new PrintWriter(
+            new FileWriter("sessions.csv", true)
+        );
 
-    writer.println(
-        session.getSubject() + "," +
-        session.getDate() + "," +
-        session.getDuration()
-    );
+        writer.println(
+            session.getSubject() + "," +
+            session.getDate() + "," +
+            session.getDuration()
+        );
 
-    writer.close();
+        writer.close();
+        sessions.add(session);
 
-    System.out.println("Study session saved!");
+        System.out.println("Study session saved!");
 
-} catch (IOException e) {
-    System.out.println("Error saving study session.");
-}
+    } catch (IOException e) {
+        System.out.println("Error saving study session.");
+    }
 
-                    System.out.println("Study session added!");
-                    break;
+    break;
 
                 case 2:
                     if (sessions.isEmpty()) {
