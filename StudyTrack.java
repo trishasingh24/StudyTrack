@@ -6,6 +6,8 @@ public class StudyTrack {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+        ArrayList<StudySession> sessions = new ArrayList<>();
+
         int choice = 0;
 
         while (choice != 4) {
@@ -16,16 +18,41 @@ public class StudyTrack {
             System.out.println("4. Exit");
 
             System.out.print("Enter your choice: ");
-
             choice = scanner.nextInt();
 
             switch (choice) {
                 case 1:
-                    System.out.println("Add session coming soon!");
+                    scanner.nextLine();
+
+                    System.out.print("Enter subject: ");
+                    String subject = scanner.nextLine();
+
+                    System.out.print("Enter date (YYYY-MM-DD): ");
+                    LocalDate date = LocalDate.parse(scanner.nextLine());
+
+                    System.out.print("Enter duration (minutes): ");
+                    int duration = scanner.nextInt();
+
+                    StudySession session = new StudySession(subject, date, duration);
+                    sessions.add(session);
+
+                    System.out.println("Study session added!");
                     break;
 
                 case 2:
-                    System.out.println("View sessions coming soon!");
+                    if (sessions.isEmpty()) {
+                        System.out.println("No study sessions found.");
+                    } else {
+                        System.out.println("\nStudy Sessions:");
+
+                        for (StudySession s : sessions) {
+                            System.out.println(
+                                s.getSubject() + " | " +
+                                s.getDate() + " | " +
+                                s.getDuration() + " minutes"
+                            );
+                        }
+                    }
                     break;
 
                 case 3:
